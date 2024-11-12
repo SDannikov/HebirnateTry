@@ -1,6 +1,11 @@
-package org.example.sprinBootWebApp.Model;
+package org.example.sprinBootWebApp.SpringBoot.Model;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
+import javax.persistence.criteria.CriteriaBuilder;
 
 @Entity
 @Table(name = "persons")
@@ -8,27 +13,24 @@ public class Person {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "ID")
     private Long id;
 
-    @Column(name = "NAME")
+    @Column(name = "name")
     private String name;
 
-    @Column(name = "SURNAME")
+    @Column(name = "surname")
     private String surname;
 
-    @Column(name = "PATRONYMIC")
+    @Column(name = "patronymic")
     private String patronymic;
 
-    @Column(name = "YEAR")
+    @Column(name = "year")
     private Integer year;
 
-    @Column(name = "PHONE_NUMBER")
+    @Column(name = "phone_number")
     private String phoneNumber;
 
-    @ManyToOne
-    @JoinColumn(name = "city_id", referencedColumnName = "id")
-    private City city;
+    public Person(){};
 
     public Person(String name, String surname, String patronymic, Integer year, String phoneNumber) {
         this.name = name;
@@ -38,13 +40,6 @@ public class Person {
         this.phoneNumber = phoneNumber;
     }
 
-    public City getCity() {
-        return this.city;
-    }
-
-    public void setCity(City city) {
-        this.city = city;
-    }
 
     public Long getId() {
         return id;
