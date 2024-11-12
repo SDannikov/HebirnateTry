@@ -28,17 +28,16 @@ public class PersonController {
 
     @GetMapping("/cities/{cityId}/persons")
     public ResponseEntity<List<Person>> getAllPersonsByCityId(@PathVariable Long cityId) {
-        City city = cityRepository.findById(cityId)
-                .orElseThrow(() -> new ResourceNotFoundExeption("Not found Tutorial with id = " + cityId));
+        if (!cityRepository.existsById(cityId)) {
+            throw new ResourceAccessException("Not found Tutorial with id = " + cityId);
+        }
 
-        List<Person> persons = new ArrayList<Person>();
-        persons.addAll(city.getPersons());
-
+        List<Person> persons = personRepository.findByCityId(cityId);
         return new ResponseEntity<>(persons, HttpStatus.OK);
     }
 
     @GetMapping("/persons/{id}")
-    public ResponseEntity<Person> getPersonsByCityId(@PathVariable Long id) {
+    public ResponseEntity<Person> getCommentsByTutorialId(@PathVariable Long id) {
         Person person = personRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundExeption("Not found Comment with id = " + id));
 
@@ -48,7 +47,7 @@ public class PersonController {
     @PostMapping("/cities/{cityId}/persons")
     public ResponseEntity<Person> createPerson(@PathVariable Long cityId, @RequestBody Person personRequest) {
         Person person = cityRepository.findById(cityId).map(city -> {
-            city.getPersons().add(personRequest);
+            personRequest.setCity(city);
             return personRepository.save(personRequest);
         }).orElseThrow(() -> new ResourceNotFoundExeption("Not found Tutorial with id = " + cityId));
 
@@ -65,8 +64,7 @@ public class PersonController {
         person.setPatronymic(personRequest.getPatronymic());
         person.setYear(personRequest.getYear());
         person.setPhoneNumber(personRequest.getPhoneNumber());
-
-
+        person.setCity(personRequest.getCity());
 
         return new ResponseEntity<>(personRepository.save(person), HttpStatus.OK);
     }
@@ -80,12 +78,11 @@ public class PersonController {
 
     @DeleteMapping("/cities/{cityId}/persons")
     public ResponseEntity<List<Comment>> deleteAllPersonsOfCity(@PathVariable Long cityId) {
-        City city = cityRepository.findById(cityId)
-                .orElseThrow(() -> new ResourceNotFoundExeption("Not found Tutorial with id = " + cityId));
+        if (!cityRepository.existsById(cityId)) {
+            throw new ResourceAccessException("Not found Tutorial with id = " + cityId);
+        }
 
-        city.removePersons();
-        cityRepository.save(city);
-
+        personRepository.deleteByCityId(cityId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

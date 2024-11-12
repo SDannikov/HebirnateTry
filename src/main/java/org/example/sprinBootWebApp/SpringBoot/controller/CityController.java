@@ -23,7 +23,6 @@ public class CityController {
     public ResponseEntity<List<City>> getAllCities() {
         List<City> cities = new ArrayList<City>();
         cityRepository.findAll().forEach(cities::add);
-
         return new ResponseEntity<>(cities, HttpStatus.OK);
     }
 
@@ -43,8 +42,7 @@ public class CityController {
 
     @PutMapping("/cities/{id}")
     public ResponseEntity<City> updateCity(@PathVariable long id, @RequestBody City city) {
-        City _city = cityRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundExeption("Not found Tutorial with id = " + id));
+        City _city = cityRepository.findById(id).orElseThrow(() -> new ResourceNotFoundExeption("Not found Tutorial with id = " + id));
 
         _city.setName(city.getName());
 
@@ -59,9 +57,10 @@ public class CityController {
     }
 
     @DeleteMapping("/cities")
-    public ResponseEntity<HttpStatus> deleteAllCities() {
+    public ResponseEntity<HttpStatus> deleteAllTutorials() {
         cityRepository.deleteAll();
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
 }

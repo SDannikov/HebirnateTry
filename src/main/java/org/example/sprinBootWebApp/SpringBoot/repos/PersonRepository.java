@@ -7,4 +7,8 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 public interface PersonRepository extends JpaRepository<Person, Long> {
+    List<Person> findByCityId(Long postId);
+
+    @Transactional
+    void deleteByCityId(long tutorialId);
 }

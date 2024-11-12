@@ -30,6 +30,12 @@ public class Person {
     @Column(name = "phone_number")
     private String phoneNumber;
 
+    @ManyToOne
+    @JoinColumn(name = "city_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private City city;
+
     public Person(){};
 
     public Person(String name, String surname, String patronymic, Integer year, String phoneNumber) {
@@ -88,4 +94,13 @@ public class Person {
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
+
+    public City getCity() {
+        return city;
+    }
+
+    public void setCity(City city) {
+        this.city = city;
+    }
+
 }

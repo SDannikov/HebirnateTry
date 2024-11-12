@@ -1,5 +1,9 @@
 package org.example.sprinBootWebApp.SpringBoot.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -14,11 +18,6 @@ public class City {
 
     @Column(name = "name")
     private String name;
-
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    @JoinColumn(name = "city_id")
-    private Set<Person> persons = new HashSet<>();
-
 
     public City(){}
 
@@ -40,17 +39,5 @@ public class City {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Set<Person> getPersons() {
-        return persons;
-    }
-
-    public void setPersons(Set<Person> persons) {
-        this.persons = persons;
-    }
-
-    public void removePersons() {
-        this.persons.clear();
     }
 }
