@@ -67,6 +67,14 @@
       <version>3.8.1</version>
       <scope>test</scope>
     </dependency>
+
+    <dependency>
+      <groupId>org.camunda.bpm</groupId>
+      <artifactId>camunda-engine</artifactId>
+      <version>7.22.0</version>
+      <scope>provided</scope>
+    </dependency>
+
   </dependencies>
 
   <build>

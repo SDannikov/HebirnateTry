@@ -1,20 +1,15 @@
-package org.example.sprinBootWebApp.HttpClient.model;
+package org.example.Model;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-
-public class City {
+public class HttpClientCityModel {
 
     private Long id;
 
     private String name;
 
 
-    public City(){}
+    public HttpClientCityModel(){}
 
-    public City(String name) {
+    public HttpClientCityModel(String name) {
         this.name = name;
     }
 

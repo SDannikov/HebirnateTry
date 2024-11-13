@@ -1,11 +1,10 @@
-package org.example.sprinBootWebApp.SpringBoot.Model;
+package org.example.Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
-import javax.persistence.criteria.CriteriaBuilder;
 
 @Entity
 @Table(name = "persons")

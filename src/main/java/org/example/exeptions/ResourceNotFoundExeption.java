@@ -1,4 +1,4 @@
-package org.example.sprinBootWebApp.SpringBoot.exeptions;
+package org.example.exeptions;
 
 public class ResourceNotFoundExeption extends RuntimeException {
     public ResourceNotFoundExeption(String message) {

@@ -1,7 +1,7 @@
-package org.example.sprinBootWebApp.HttpClient.model;
+package org.example.Model;
 
 
-public class Person {
+public class HttpClientPersonModel {
     private Long id;
     private String name;
     private String surname;
@@ -10,7 +10,7 @@ public class Person {
     private String phoneNumber;
 
 
-    public Person(String name, String surname, String patronymic, Integer year, String phoneNumber) {
+    public HttpClientPersonModel(String name, String surname, String patronymic, Integer year, String phoneNumber) {
         this.name = name;
         this.surname = surname;
         this.patronymic = patronymic;

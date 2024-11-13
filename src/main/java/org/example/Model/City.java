@@ -1,12 +1,6 @@
-package org.example.sprinBootWebApp.SpringBoot.Model;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
+package org.example.Model;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Table(name = "cities")
