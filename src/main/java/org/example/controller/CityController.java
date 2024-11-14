@@ -1,7 +1,7 @@
 package org.example.controller;
 
 import org.example.repos.CityRepository;
-import org.example.Model.City;
+import org.example.model.City;
 import org.example.exeptions.ResourceNotFoundExeption;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

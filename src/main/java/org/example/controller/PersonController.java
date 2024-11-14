@@ -1,7 +1,7 @@
 package org.example.controller;
 
-import org.example.Model.City;
-import org.example.Model.Person;
+import org.example.model.City;
+import org.example.model.Person;
 import org.example.repos.PersonRepository;
 import org.example.exeptions.ResourceNotFoundExeption;
 import org.example.repos.CityRepository;
@@ -23,32 +23,36 @@ public class PersonController {
     @Autowired
     private CityRepository cityRepository;
 
-    @GetMapping("/cities/{cityId}/persons")
-    public ResponseEntity<List<Person>> getAllPersonsByCityId(@PathVariable Long cityId) {
-        if (!cityRepository.existsById(cityId)) {
-            throw new ResourceAccessException("Not found Tutorial with id = " + cityId);
+    @GetMapping("/persons")
+    public ResponseEntity<List<Person>> getAllPersonsByCityName(String cityName) {
+        if (!cityRepository.existsByNameContainingIgnoreCase(cityName)) {
+            throw new ResourceAccessException("Not found Tutorial with id = " + cityName);
         }
 
-        List<Person> people = personRepository.findByCityId(cityId);
+        List<Person> people = personRepository.findByCityName(cityName);
         return new ResponseEntity<>(people, HttpStatus.OK);
     }
 
     @GetMapping("/persons/{id}")
-    public ResponseEntity<Person> getPersonByCityId(@PathVariable Long id) {
+    public ResponseEntity<Person> getPersonById(@PathVariable Long id) {
         Person person = personRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundExeption("Not found Person with id = " + id));
 
         return new ResponseEntity<>(person, HttpStatus.OK);
     }
 
-    @PostMapping("/cities/{cityId}/persons")
-    public ResponseEntity<Person> createPersonByCityId(@PathVariable Long cityId, @RequestBody Person personRequest) {
-        Person person = cityRepository.findById(cityId).map(cityModel -> {
-            personRequest.setCity(cityModel);
-            return personRepository.save(personRequest);
-        }).orElseThrow(() -> new ResourceNotFoundExeption("Not found City with id = " + cityId));
+    @PostMapping("/persons")
+    public ResponseEntity<Person> createPersonByCityName( String cityName, @RequestBody Person personRequest) {
+        if (!cityRepository.existsByNameContainingIgnoreCase(cityName)) {
+            throw new ResourceAccessException("Not found City with id = " + cityName);
+        }
 
-        return new ResponseEntity<>(person, HttpStatus.CREATED);
+        City city = cityRepository.findByNameContainingIgnoreCase(cityName);
+
+        personRequest.setCity(city);
+        personRepository.save(personRequest);
+
+        return new ResponseEntity<>(personRequest, HttpStatus.CREATED);
     }
 
     @PutMapping("/persons/{id}")
@@ -73,13 +77,13 @@ public class PersonController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @DeleteMapping("/cities/{cityId}/persons")
-    public ResponseEntity<List<Person>> deleteAllPersonsOfCity(@PathVariable Long cityId) {
-        if (!cityRepository.existsById(cityId)) {
-            throw new ResourceAccessException("Not found Tutorial with id = " + cityId);
+    @DeleteMapping("/persons")
+    public ResponseEntity<List<Person>> deleteAllPersonsOfCity( String cityName) {
+        if (!cityRepository.existsByNameContainingIgnoreCase(cityName)) {
+            throw new ResourceAccessException("Not found City with id = " + cityName);
         }
 
-        personRepository.deleteByCityId(cityId);
+        personRepository.deleteByCityNameContainingIgnoreCase(cityName);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

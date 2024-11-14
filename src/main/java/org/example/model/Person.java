@@ -1,22 +1,50 @@
-package org.example.Model;
+package org.example.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
-public class HttpClientPersonModel {
+import javax.persistence.*;
+
+@Entity
+@Table(name = "persons")
+public class Person {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+    @Column(name = "name")
     private String name;
+
+    @Column(name = "surname")
     private String surname;
+
+    @Column(name = "patronymic")
     private String patronymic;
+
+    @Column(name = "year")
     private Integer year;
+
+    @Column(name = "phone_number")
     private String phoneNumber;
 
+    @ManyToOne
+    @JoinColumn(name = "city_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private City city;
 
-    public HttpClientPersonModel(String name, String surname, String patronymic, Integer year, String phoneNumber) {
+    public Person(){};
+
+    public Person(String name, String surname, String patronymic, Integer year, String phoneNumber) {
         this.name = name;
         this.surname = surname;
         this.patronymic = patronymic;
         this.year = year;
         this.phoneNumber = phoneNumber;
     }
+
 
     public Long getId() {
         return id;
@@ -65,4 +93,13 @@ public class HttpClientPersonModel {
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
+
+    public City getCity() {
+        return city;
+    }
+
+    public void setCity(City city) {
+        this.city = city;
+    }
+
 }

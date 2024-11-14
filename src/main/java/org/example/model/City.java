@@ -1,18 +1,23 @@
-package org.example.Model;
+package org.example.model;
 
-public class HttpClientCityModel {
+import javax.persistence.*;
 
+@Entity
+@Table(name = "cities")
+public class City {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @Column(name = "name")
     private String name;
 
+    public City(){}
 
-    public HttpClientCityModel(){}
-
-    public HttpClientCityModel(String name) {
+    public City(String name) {
         this.name = name;
     }
-
 
     public Long getId() {
         return id;
