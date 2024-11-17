@@ -32,7 +32,6 @@ public class Person {
     @ManyToOne
     @JoinColumn(name = "city_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonIgnore
     private City city;
 
     public Person(){};
@@ -44,7 +43,6 @@ public class Person {
         this.year = year;
         this.phoneNumber = phoneNumber;
     }
-
 
     public Long getId() {
         return id;

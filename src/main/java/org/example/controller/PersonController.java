@@ -25,9 +25,6 @@ public class PersonController {
 
     @GetMapping("/persons")
     public ResponseEntity<List<Person>> getAllPersonsByCityName(String cityName) {
-        if (!cityRepository.existsByNameContainingIgnoreCase(cityName)) {
-            throw new ResourceAccessException("Not found Tutorial with id = " + cityName);
-        }
 
         List<Person> people = personRepository.findByCityName(cityName);
         return new ResponseEntity<>(people, HttpStatus.OK);
@@ -43,13 +40,16 @@ public class PersonController {
 
     @PostMapping("/persons")
     public ResponseEntity<Person> createPersonByCityName( String cityName, @RequestBody Person personRequest) {
-        if (!cityRepository.existsByNameContainingIgnoreCase(cityName)) {
-            throw new ResourceAccessException("Not found City with id = " + cityName);
-        }
 
-        City city = cityRepository.findByNameContainingIgnoreCase(cityName);
+        personRequest.setCity(cityRepository.findByNameContainingIgnoreCase(cityName));
+        personRepository.save(personRequest);
 
-        personRequest.setCity(city);
+        return new ResponseEntity<>(personRequest, HttpStatus.CREATED);
+    }
+
+    @PostMapping("/persons")
+    public ResponseEntity<Person> createPerson(@RequestBody Person personRequest) {
+
         personRepository.save(personRequest);
 
         return new ResponseEntity<>(personRequest, HttpStatus.CREATED);
@@ -60,12 +60,7 @@ public class PersonController {
         Person person = personRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundExeption("PersonId " + id + "not found"));
 
-        person.setName(personRequest.getName());
-        person.setSurname(personRequest.getSurname());
-        person.setPatronymic(personRequest.getPatronymic());
-        person.setYear(personRequest.getYear());
-        person.setPhoneNumber(personRequest.getPhoneNumber());
-        person.setCity(personRequest.getCity());
+        person = personRequest;
 
         return new ResponseEntity<>(personRepository.save(person), HttpStatus.OK);
     }
@@ -79,9 +74,6 @@ public class PersonController {
 
     @DeleteMapping("/persons")
     public ResponseEntity<List<Person>> deleteAllPersonsOfCity( String cityName) {
-        if (!cityRepository.existsByNameContainingIgnoreCase(cityName)) {
-            throw new ResourceAccessException("Not found City with id = " + cityName);
-        }
 
         personRepository.deleteByCityNameContainingIgnoreCase(cityName);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

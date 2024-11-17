@@ -30,7 +30,7 @@ public class AppStartingAfterTablesCreated implements ApplicationRunner {
         }
 
         if (personRepository.count() == 0){
-            savePerson(new Person("Александр", "Смирнов", "Александрович", 1981, "0-000-000-00-00"), "Москва");
+            savePerson(new Person("Александр", "Смирнов", "Александрович", 1981, "0-000-000-00-00"), "Обнинск");
             savePerson(new Person("Михаил", "Иванов", "Иванович", 1999, "1-111-111-11-11"), "Обнинск");
             savePerson(new Person("Максим", "Кузнецов", "Васильевич", 2023, "2-222-222-22-22"), "Москва");
             savePerson(new Person("Лев", "Лебедев", "Августович", 2001, "3-333-333-33-33"), "Тунис");
